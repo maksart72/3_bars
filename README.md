@@ -1,7 +1,9 @@
 # Ближайшие бары
 
-This project helps you to find the nearest bar. 
+This project helps you to find the nearest bar, the biggest and the smallest one. 
 Just enter your current positions and go ahead!
+
+P.S. Because of old Russian tradition I exclude bars with seats less than 3
 
 # Как запустить
 
