@@ -1,6 +1,6 @@
 # Ближайшие бары
 
-This project helps you to find nearest bar. 
+This project helps you to find the nearest bar. 
 Just enter your current positions and go ahead!
 
 # Как запустить
