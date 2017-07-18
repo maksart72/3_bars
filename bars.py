@@ -1,64 +1,69 @@
-import json, os, sys
+import json
+import os
+import sys
 
-filepath = sys.argv[1]
 
-def load_data(filepath):
+def load_bar_information(filepath):
+    if not os.path.exists(filepath):
+        return None
+    with open(filepath, 'r') as file_handler:
+        return json.load(file_handler)
 
-   if not os.path.exists(filepath):
-    return None
-   with open(filepath, 'r') as file_handler:
-    return json.load(file_handler)
 
-def get_biggest_bar(data):
-    
-    SeatsCount = {}
-    for bar in data:
-        SeatsCount[bar["global_id"]]=bar["SeatsCount"]
-    return(sorted(SeatsCount, key=lambda x: int(SeatsCount[x]), reverse=True )[0])
-    
-def get_smallest_bar(data):
+def get_biggest_bar(bar_information):
+    seats_count = {}
+    for bars in bar_information:
+        seats_count[bars["global_id"]] = bars["SeatsCount"]
+    return sorted(seats_count, key=lambda x: int(seats_count[x]), reverse=True)[0]
 
-    SeatsCount = {}
-    for bar in data:
-        if bar["SeatsCount"]>2:
-            SeatsCount[bar["global_id"]]=bar["SeatsCount"]
 
-    return(sorted(SeatsCount, key=lambda x: int(SeatsCount[x]), reverse=False )[0])
-   
-def get_closest_bar(data, longitude, latitude):
+def get_smallest_bar(bar_information):
+    seats_count = {}
+    for bars in bar_information:
+        if bars["SeatsCount"] > 2:
+            seats_count[bars["global_id"]] = bars["SeatsCount"]
 
-    DistanceCount = {}
-    for bar in data:
-        DistanceCount[bar["global_id"]]=distance(longitude, latitude , x2=float(bar["Longitude_WGS84"]),y2=float(bar["Latitude_WGS84"]))
-        
-    return(sorted(DistanceCount, key=lambda x: float(DistanceCount[x]), reverse=False )[0])
-     
-def distance(x1, y1, x2, y2):
-    return(((x2-x1)**2 + (y2-y1)**2)**0.5)
+    return sorted(seats_count, key=lambda x: int(seats_count[x]), reverse=False)[0]
+
+
+def get_closest_bar(bar_information, longitude, latitude):
+
+    distance_count = {}
+    for bars in bar_information:
+        distance_count[bars["global_id"]] = distance(longitude, latitude, coordx2=float(
+            bars["Longitude_WGS84"]), coordy2=float(bars["Latitude_WGS84"]))
+    return sorted(distance_count, key=lambda x: float(distance_count[x]), reverse=False)[0]
+
+
+def distance(coordx1, coordy1, coordx2, coordy2):
+    return ((coordx2 - coordx1)**2 + (coordy2 - coordy1)**2)**0.5
+
+
+def print_results(filepath):
+    bar_information = load_bar_information(filepath)
+    for bars in bar_information:
+        if bars["global_id"] == get_biggest_bar(bar_information):
+            print('The biggest bar is ',
+                  bars["Name"], bars["Address"], 'seats:', bars["SeatsCount"])
+
+        if bars["global_id"] == get_smallest_bar(bar_information):
+            print('The smallest bar is ',
+                  bars["Name"], bars["Address"], 'seats:', bars["SeatsCount"])
+
+        if bars["global_id"] == get_closest_bar(bar_information, your_longitude, your_latitude):
+            print('The nearest bar is ',
+                  bars["Name"], bars["Address"], 'seats:', bars["SeatsCount"])
+    print('Have a nice evening!')
+
 
 if __name__ == '__main__':
-    
+    jsonfile = sys.argv[1]
     try:
-        latitude = float(input('Enter Latitude: '))
-        longitude = float(input('Enter Longitude: '))
+        your_latitude = float(input('Enter Latitude: '))
+        your_longitude = float(input('Enter Longitude: '))
     except ValueError:
-        latitude = None
-        longitude = None
-
-    if (latitude or longitude) is None:
+        your_latitude = None
+        your_longitude = None
+    if (your_latitude or your_longitude) is None:
         print('Error! Check your input!')
-
-    data=load_data(filepath)
-
-    for bar in data:
-        if bar["global_id"] == get_biggest_bar(data):
-            print('The biggest bar is ', bar["Name"], bar["Address"],'seats:',bar["SeatsCount"])
-        
-        if bar["global_id"] == get_smallest_bar(data):
-            print('The smallest bar is ', bar["Name"], bar["Address"],'seats:',bar["SeatsCount"])
-
-        if bar["global_id"] == get_closest_bar(data,longitude, latitude):
-            print('The nearest bar is ', bar["Name"], bar["Address"],'seats:',bar["SeatsCount"])
-        
-    print('Have a nice evening!')
-    
+    print_results(jsonfile)

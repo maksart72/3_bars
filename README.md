@@ -1,19 +1,16 @@
-# Ближайшие бары
+# The nearest bar
 
-This project helps you to find the nearest bar, the biggest and the smallest one. 
-Just enter your current positions and go ahead!
+This project helps you to find the nearest bar, the biggest and the smallest one.
+You need JSON file from http://data.mos.ru/opendata/7710881420-bary 
+Just enter your current positions and go ahead! 
 
-P.S. Because of old Russian tradition I exclude bars with seats less than 3
+# Quickstart
 
-# Как запустить
-
-Скрипт требует для своей работы установленного интерпретатора Python версии 3.5
-
-Запуск на Linux:
+Example of script launch on Linux
 
 ```#!bash
 
-$ python bars.py # possibly requires call of python3 executive instead of just python
+$ python bars.py <path to file>
 
 You will see for example:
 
@@ -24,8 +21,7 @@ The biggest bar is  Спорт бар «Красная машина» Автоз
 The nearest bar is  Таверна проспект Защитников Москвы, дом 8 seats: 16
 Have a nice evening!
 ```
-Запуск на Windows происходит аналогично.
 
-# Цели проекта
+# Project Goals
 
-Код создан в учебных целях. В рамках учебного курса по веб-разработке - [DEVMAN.org](https://devman.org)
+The code is written for educational purposes. Training course for web-developers - [DEVMAN.org](https://devman.org)
