@@ -11,14 +11,16 @@ def load_bar_information(filepath):
 
 
 def get_biggest_bar(bar_information):
-    return max((bar['SeatsCount'], bar['global_id']) for bar in bar_information)
+    return max((bars['SeatsCount'], bars['global_id']) for bars in bar_information)
 
 
 def get_smallest_bar(bar_information):
-    return min((bar['SeatsCount'], bar['global_id']) for bar in bar_information)
-    
+    return min((bars['SeatsCount'], bars['global_id']) for bars in bar_information)
+
+
 def get_closest_bar(bar_information, longitude, latitude):
-    return min((distance(longitude, latitude, coordx2=float(bar["Longitude_WGS84"]), coordy2=float(bar["Latitude_WGS84"])), bar['global_id']) for bar in bar_information)
+    return min((distance(longitude, latitude, coordx2=float(bars["Longitude_WGS84"]), coordy2=float(bars["Latitude_WGS84"])), bars['global_id']) for bars in bar_information)
+
 
 def distance(coordx1, coordy1, coordx2, coordy2):
     return ((coordx2 - coordx1)**2 + (coordy2 - coordy1)**2)**0.5
